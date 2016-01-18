@@ -1,4 +1,4 @@
-var filesValidationModule = function() {
+var fileModule = (function() {
 
     /* Function responsible to validate files specified as a argument.
      It returns array of valid files */
@@ -6,8 +6,7 @@ var filesValidationModule = function() {
         var validFiles = [];
         for (var i = 0; i < filesInput.length; i++) {
             var file = filesInput[i];
-            var valid = validateFileType(file);
-            if (valid) {
+            if (validateFileType(file)) {
                 validFiles.push(file);
             }
         }
@@ -31,4 +30,4 @@ var filesValidationModule = function() {
     return {
         validateFiles : validateFiles
     }
-};
+}());

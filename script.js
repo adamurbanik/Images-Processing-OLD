@@ -1,10 +1,12 @@
 // update check 
 var config = {
     thumbnailsSize : 150,
-    elementsDistance : 2
+    elementsDistance : 2,
+    canvasWidth : "1024",
+    canvasHeight : "768"
 };
 
-var imageProcessor = imageProcessor(); 
+
 imageProcessor.init(config);
 
 

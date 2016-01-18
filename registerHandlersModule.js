@@ -1,7 +1,7 @@
 /* A Module that registers all the events application.
  Mainly it is to add listeners of appropriate type for the given DOM element.
  The last handler argument provides callback function.*/
-var registerHandlersModule = function() {
+var registerHandlersModule = (function() {
 
     function addHandler(element, type, handler) {
         if (element.addEventListener) {
@@ -28,4 +28,4 @@ var registerHandlersModule = function() {
         removeHandler : removeHandler
     }
 
-};
+}());

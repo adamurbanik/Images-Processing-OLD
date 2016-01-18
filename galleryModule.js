@@ -1,84 +1,30 @@
-var galleryModule = function() {
+var galleryModule = (function() {
+    var myConfig;
+    var canvas;
 
-    var canvas = null;
-    var imagesLoaded = [];
-
-    /* Function to register the click event on the canvas element. 
-    When the element is clicked the proper element image number is found and open */
-    function registerCanvas() {
-
-        if (canvas != null) {
-            canvas.removeEventListener("click", handler, false); 
-            var parentNode = canvas.parentNode;
-            canvas.parentNode.removeChild(canvas);
-            canvas = null;
-
-            canvas = document.createElement("canvas");
-            canvas.id = "canvas";
-            canvas.width = "1024",
-            canvas.height = "768";
-
-            parentNode.appendChild(canvas);
-        }
-        
-        canvas = document.getElementById("canvas");
-        canvas.addEventListener("click", handler, false);
-
-        function handler(event) {
-            event.preventDefault();
-
-            /* get the mouse position out of the canvas and divide the mouse position by 150
-             to get element number thas is needed to open */
-            var mousePos = getMousePosition(canvas, event)
-            var x = Math.floor(mousePos.x / 152);
-            var y = Math.floor(mousePos.y / 152);
-            var width = Math.floor(this.width / 152);
-
-            var elementNo = getElement(x, y, width);
-            console.log(elementNo);
-
-            var count = imagesLoaded.length-1;
-            if (count >= elementNo) {
-                // open that element
-                openImage(elementNo);                
-            } 
-
-        }
-
-        function getElement(x, y, width) {
-            return x + width * y;
-        }
-
-        function getMousePosition(canvas, event) {
-            var rectangle = canvas.getBoundingClientRect();
-            return {
-                x : event.clientX - rectangle.left,
-                y : event.clientY - rectangle.top
-            }
-        };
-
-        return canvas;
-    }
-
-    function openImage(elementNo) {
+    function openImage() {
         var image = new Image();
         
-        registerHandlersModule().addHandler(image, "load", function() {
-            var myWindow = window.open("", "mywin", 'height=' + image.height + ',width=' + image.width + ',resizable=yes,scrollbars=yes,location=yes');
-            myWindow.document.write("<canvas id='canvas' width='200' height='200'>A drawing of something.</canvas>")
+        registerHandlersModule.addHandler(image, "load", function() {
 
-            var canvasBig = myWindow.document.querySelector("canvas");
+
+			var canvasBig = document.createElement("canvas");
+			canvasBig.id = "canvasBig";
             canvasBig.width = image.width;
             canvasBig.height = image.height;
 
             var ctx = canvasBig.getContext("2d");
-            ctx.drawImage(image, 0, 0);
+            ctx.drawImage(image, 0, 0, canvasBig.width, canvasBig.height);
+            var img = new Image();
+            img.src = canvasBig.toDataURL();
+
+
+            var myWindow = window.open(img.src, "mywin", 'height=' + canvasBig.height + ',width=' + canvasBig.width);
+
         });
-        image.src = imagesLoaded[elementNo].src;
+        image.src = this.alt;
 
     }
-
-
 
     Array.prototype.clear = function() {
         while (this.length > 0) {
@@ -86,26 +32,36 @@ var galleryModule = function() {
         }
     }
 
-    function loadImages(files, myConfig) {
-        var images = [];
-        var loadedImagesCounter = 0;
-        var numImages = 0;
-        imagesLoaded.clear();
-
-        numImages = files.length;
+    function loadImages(files, config) {
+        myConfig = config;
+        var preview = document.getElementById("preview");
 
         Array.prototype.forEach.call(files, function(file) {
             var reader = new FileReader();
             reader.addEventListener("load", function(event) {
                 console.log("reader load listener works");
+                var lowCanvas = document.createElement("canvas");
                 var img = document.createElement("img");
                 img.onload = function() {
-                    loadedImagesCounter++;
-                    images.push(img);
-                    if (loadedImagesCounter >= numImages) {
-                        drawCanvas(images, myConfig);
-                    }
+
+                    lowCanvas.id = "lowCanvas";
+                    var thumbSize = config.thumbnailsSize;
+                    lowCanvas.width = thumbSize;
+                    lowCanvas.height = thumbSize;
+                    
+                    var ctx = lowCanvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, lowCanvas.width, lowCanvas.height);
+                    var dataURL = lowCanvas.toDataURL();
+
+                    var thumb = document.createElement("img");
+                    thumb.src = dataURL;
+                    thumb.alt = img.src;
+                 	thumb.addEventListener("click", openImage, false);
+
+                    preview.appendChild(thumb);
+
                 }
+
                 img.src = reader.result;
 
             }, false);
@@ -113,46 +69,13 @@ var galleryModule = function() {
             if (file) {
                 reader.readAsDataURL(file);
             }
-
         });
-
-        return images;
     }
 
-    function drawCanvas(images, myConfig) {
-        registerCanvas();
-
-        var ctx = canvas.getContext("2d");
-        var canvasWidth = canvas.width;
-        ctx.clearRect(0, 0, 1024, 768);
-        var positionX = 0;
-        var positionY = 0;
-
-        var thumbSize = myConfig.thumbnailsSize;
-        var distance = myConfig.elementsDistance;
-
-        images.forEach(function(image) {
-            ctx.drawImage(image, positionX, positionY, thumbSize, thumbSize);
-            positionX += thumbSize + distance;
-
-            if (positionX + 150 > canvasWidth) {
-                positionX = 0;
-                positionY += 152;
-            }
-            imagesLoaded.push(image);
-        });        
-    }
-
-    function getImagesLoaded() {
-        return imagesLoaded;
-    }
 
     return {
-    	openImage : openImage,
-        registerCanvas : registerCanvas, 
-        loadImages : loadImages,
-        getImagesLoaded : getImagesLoaded,
+        loadImages : loadImages
     }
 
 
-}
+}());

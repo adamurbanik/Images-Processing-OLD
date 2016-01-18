@@ -1,4 +1,4 @@
-var manualInputModule = function() {
+var manualInputModule = (function() {
 	
     var myConfig = null;
     var gallery = null;
@@ -16,7 +16,7 @@ var manualInputModule = function() {
         if (input.files.length > 0) {
             var filesInput = input.files;
 
-            var files = filesValidationModule().validateFiles(filesInput);
+            var files = fileModule.validateFiles(filesInput);
 
     		// load images
             myGallery.loadImages(files, config);
@@ -29,4 +29,4 @@ var manualInputModule = function() {
     }
 
 
-}
+}());
