@@ -1,18 +1,18 @@
 /* Module that joins all the modules together */
-var imageProcessor = (function() {
+var imageProcessor = ( function() {
 
-	function init(config) {
-	
-		// manual input element
-		manualInputModule.setConfig(config, galleryModule);
+        function init(config) {
 
-	    // drop element
-	    dropFilesModule.setConfig(config, galleryModule);
+            // manual input element
+            manualInputModule.setConfig(config);
 
-	}
+            // drop element
+            dropFilesModule.setConfig(config);
 
-	return {
-		init : init
-	}
-}());
+        }
+
+        return {
+            init : init
+        }
+    }());
 

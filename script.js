@@ -1,15 +1,12 @@
-// update check 
+// update check
 var config = {
-    thumbnailsSize : 150,
+    thumbWidth : 150,
+    thumbHeight : 150,
     elementsDistance : 2,
     canvasWidth : "1024",
-    canvasHeight : "768"
+    canvasHeight : "768",
+    canvasColor : "#f2f2f2"
 };
 
-
 imageProcessor.init(config);
-
-
-
-
 

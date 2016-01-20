@@ -1,32 +1,30 @@
-var manualInputModule = (function() {
-	
-    var myConfig = null;
-    var gallery = null;
+var manualInputModule = ( function() {
 
-	function setConfig(config, gallery) {
-        myConfig = config;
-        myGallery = gallery;
-    }
+        var myConfig = null;
 
-	var input = document.querySelector("input");	    
-
-    input.addEventListener("change", handleInput, false);
-    /* Function responsible to handle user input */
-    function handleInput() {
-        if (input.files.length > 0) {
-            var filesInput = input.files;
-
-            var files = fileModule.validateFiles(filesInput);
-
-    		// load images
-            myGallery.loadImages(files, config);
-
+        function setConfig(config) {
+            myConfig = config;
         }
-    }
 
-    return {
-        setConfig : setConfig
-    }
+        var input = document.querySelector("input");
 
+        registerHandlersModule.addHandler(input, "change", handleInput);
 
-}());
+        /* Function responsible to handle user input */
+        function handleInput() {
+            if (input.files.length > 0) {
+                var filesInput = input.files;
+
+                var files = fileModule.validateFiles(filesInput);
+
+                // load images
+                galleryModule.loadImages(files, myConfig);
+
+            }
+        }
+
+        return {
+            setConfig : setConfig
+        }
+
+    }()); 
