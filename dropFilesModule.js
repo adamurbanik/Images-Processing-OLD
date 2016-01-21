@@ -1,36 +1,38 @@
 /* Module object to manage all the event for the drop element */
 var dropFilesModule = ( function() {
 
-        var myConfig = null;
+  var myConfig;
+  var droptarget; 
+  
+  function setConfig(config) {
+    myConfig = config;
+    init();
+  }
 
-        function setConfig(config) {
-            myConfig = config;
-        }
+  /* Here the init function that adds event listeners for the DOM element */
+  function init() {    
+    droptarget = document.getElementById(myConfig["dropTarget"]);
+    registerHandlersModule.addHandler(droptarget, "dragover", stopPropagation);
+    registerHandlersModule.addHandler(droptarget, "dragenter", stopPropagation);
+    registerHandlersModule.addHandler(droptarget, "drop", dropHandler);
+  }
 
-        var droptarget = document.getElementById("droptarget");
+  function stopPropagation(event) {
+    event.preventDefault();
+  }
 
-        /* Here the event listeners added for the DOM element */
-        registerHandlersModule.addHandler(droptarget, "dragover", function(event) {
-            event.preventDefault();
-        });
+  function dropHandler(event) {
+    stopPropagation(event);
+    var dataTransfer = event.dataTransfer;
+    var filesInput = dataTransfer.files;
 
-        registerHandlersModule.addHandler(droptarget, "dragenter", function(event) {
-            event.preventDefault();
-        });
+    var files = fileModule.validateFiles(filesInput);
 
-        registerHandlersModule.addHandler(droptarget, "drop", function(event) {
-            event.preventDefault();
-            var dataTransfer = event.dataTransfer;
-            var filesInput = dataTransfer.files;
+    galleryModule.loadImages(files, myConfig);        	
+  }
 
-            var files = fileModule.validateFiles(filesInput);
+  return {
+    setConfig : setConfig
+  }
 
-            galleryModule.loadImages(files, myConfig);
-
-        });
-
-        return {
-            setConfig : setConfig
-        }
-
-    }());
+}());

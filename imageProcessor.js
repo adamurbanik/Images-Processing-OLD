@@ -1,18 +1,29 @@
 /* Module that joins all the modules together */
 var imageProcessor = ( function() {
 
-        function init(config) {
+  var myConfig = {
+    thumbWidth : 150,
+    thumbHeight : 150,
+    elementsDistance : 2,
+    canvasWidth : "1024",
+    canvasHeight : "768",
+    canvasColor : "#f2f2f2",
+    dropTarget : "droptarget",
+    inputElement : "filesInput"
+  };
 
-            // manual input element
-            manualInputModule.setConfig(config);
+  function init(config) {
+    if (typeof config === "undefined")  {
+      config = myConfig;
+    }
 
-            // drop element
-            dropFilesModule.setConfig(config);
+    manualInputModule.setConfig(config);
+    dropFilesModule.setConfig(config);
+  }
 
-        }
-
-        return {
-            init : init
-        }
-    }());
+  return {
+    init : init
+  }
+  
+}());
 
