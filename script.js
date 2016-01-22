@@ -1,14 +1,14 @@
-// update check
 var config = {
-	thumbWidth : 150,
-	thumbHeight : 150,
-	elementsDistance : 2,
-	canvasWidth : "1024",
-	canvasHeight : "768",
-	canvasColor : "#f2f2f2",
+	thumbWidth : 300,
+	thumbHeight : 300,
+	elementsDistance : 6,
+	canvasWidth : "1920",
+	canvasHeight : "1080",
+	canvasColor : "#000000",
 	dropTarget : "droptarget",
-	inputElement : "filesInput"
+
 };
 
-imageProcessor.init();
+
+imageProcessor.init(config);
 

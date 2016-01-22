@@ -1,7 +1,7 @@
 /* Module that joins all the modules together */
 var imageProcessor = ( function() {
 
-  var myConfig = {
+  var config = {
     thumbWidth : 150,
     thumbHeight : 150,
     elementsDistance : 2,
@@ -12,13 +12,13 @@ var imageProcessor = ( function() {
     inputElement : "filesInput"
   };
 
-  function init(config) {
-    if (typeof config === "undefined")  {
-      config = myConfig;
+  function init(localConfig) {
+    if (typeof localConfig !== "undefined")  {
+      config = commonComponents.overwrite(config, localConfig);
     }
-
-    manualInputModule.setConfig(config);
-    dropFilesModule.setConfig(config);
+    
+    commonComponents.setConfig(config);
+    intakeModule.init();
   }
 
   return {
