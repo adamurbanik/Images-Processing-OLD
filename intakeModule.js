@@ -1,16 +1,17 @@
 /* Module object to manage all the event for the drop element */
 var intakeModule = ( function() {
 
-  var droptarget, input; 
+  var droptarget, input, config; 
 
   /* Here the init function that adds event listeners for the DOM element */
-  function init() {  
-    droptarget = document.getElementById(commonComponents.getConfig()["dropTarget"]);
+  function init(localConfig) {  
+    config = localConfig;
+    droptarget = document.getElementById(config["dropTarget"]);
     registerHandlersModule.addHandler(droptarget, "dragover", stopPropagation);
     registerHandlersModule.addHandler(droptarget, "dragenter", stopPropagation);
     registerHandlersModule.addHandler(droptarget, "drop", dropHandler);
 
-    input = document.getElementById(commonComponents.getConfig()["inputElement"]);
+    input = document.getElementById(config["inputElement"]);
     registerHandlersModule.addHandler(input, "change", handleInput);
   }
 
@@ -24,7 +25,7 @@ var intakeModule = ( function() {
     var filesInput = dataTransfer.files;
 
     var files = fileModule.validateFiles(filesInput);
-    galleryModule.loadImages(files);        	
+    galleryModule.loadImages(files, config);        	
   }
 
     /* Function responsible to handle user input */

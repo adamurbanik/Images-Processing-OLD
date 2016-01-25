@@ -13,7 +13,7 @@ var galleryModule = ( function() {
     return array;
   }
 
-  function loadImages(files) {
+  function loadImages(files, config) {
     for(var i = 0; i < files.length; i++) {
       var file = files[i];
       var reader = new FileReader();
@@ -33,12 +33,12 @@ var galleryModule = ( function() {
   }
 
   function drawThumb(img) {
-    drawImage(img, calculateDimensions(img));
+    drawImage(config, img, calculateDimensions(config, img));
   }
 
-  function calculateDimensions(img) {
-    var maxWidth = commonComponents.getConfig().thumbWidth;
-    var maxHeight = commonComponents.getConfig().thumbHeight;
+  function calculateDimensions(config, img) {
+    var maxWidth = config.thumbWidth;
+    var maxHeight = config.thumbHeight;
     var ratio = 0;
     var width = img.width;
     var height = img.height;
@@ -70,12 +70,12 @@ var galleryModule = ( function() {
 
   }
 
-  function drawImage(img, dimensionsObj) {
+  function drawImage(config, img, dimensionsObj) {
     var lowCanvas = document.createElement("canvas");
-    lowCanvas.width = commonComponents.getConfig().thumbWidth;
-    lowCanvas.height = commonComponents.getConfig().thumbHeight;
+    lowCanvas.width = config.thumbWidth;
+    lowCanvas.height = config.thumbHeight;
     var ctx = lowCanvas.getContext("2d");
-    ctx.fillStyle = commonComponents.getConfig().canvasColor;
+    ctx.fillStyle = config.canvasColor;
     ctx.fillRect(0, 0, lowCanvas.width, lowCanvas.height);
     ctx.drawImage(img, dimensionsObj["positionX"], dimensionsObj["positionY"], dimensionsObj["width"], dimensionsObj["height"]);
     var dataURL = lowCanvas.toDataURL();

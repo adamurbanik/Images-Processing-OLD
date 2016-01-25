@@ -17,8 +17,7 @@ var imageProcessor = ( function() {
       config = commonComponents.overwrite(config, localConfig);
     }
     
-    commonComponents.setConfig(config);
-    intakeModule.init();
+    intakeModule.init(config);
   }
 
   return {
