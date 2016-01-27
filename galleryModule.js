@@ -1,5 +1,4 @@
 var galleryModule = ( function() {
-  var canvas;
 
   function openImage(event) {
     var myWindow = window.open(event.currentTarget.alt, "mywin", 
