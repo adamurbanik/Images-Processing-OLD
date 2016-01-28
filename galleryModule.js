@@ -12,14 +12,14 @@ var galleryModule = ( function() {
     return array;
   }
 
-  function loadImages(files, config) {
+  function loadImages(config, files) {
     for(var i = 0; i < files.length; i++) {
       var file = files[i];
       var reader = new FileReader();
       registerHandlersModule.addHandler(reader, "load", function(event) {
         var img = document.createElement("img");
         registerHandlersModule.addHandler(img, "load", function() {
-          drawThumb(img);
+          drawThumb(config, img);
           reader = null;
         });
         img.src = event.target.result;
@@ -31,7 +31,7 @@ var galleryModule = ( function() {
     }
   }
 
-  function drawThumb(img) {
+  function drawThumb(config, img) {
     drawImage(config, img, calculateDimensions(config, img));
   }
 

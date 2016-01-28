@@ -25,7 +25,7 @@ var intakeModule = ( function() {
     var filesInput = dataTransfer.files;
 
     var files = fileModule.validateFiles(filesInput);
-    galleryModule.loadImages(files, config);        	
+    galleryModule.loadImages(config, files);        	
   }
 
     /* Function responsible to handle user input */
@@ -33,7 +33,7 @@ var intakeModule = ( function() {
     if (input.files.length > 0) {
       var filesInput = input.files;
       var files = fileModule.validateFiles(filesInput);
-      galleryModule.loadImages(files);
+      galleryModule.loadImages(config, files);
     }
   }
 
