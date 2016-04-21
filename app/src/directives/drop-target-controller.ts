@@ -1,8 +1,14 @@
 class DropTargetController {
 
-  constructor() {
+  static $inject = ['fileModule'];
 
+  fileModule: FileModule;
+
+  constructor(fileModule: FileModule) {
+    this.fileModule = fileModule;
   }
+  
+  
 
 
 }

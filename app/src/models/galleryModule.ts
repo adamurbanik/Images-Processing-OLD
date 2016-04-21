@@ -1,3 +1,89 @@
+interface IDimensions {
+    "width" : number,
+    "height" : number,
+    "positionY" : number,
+    "positionX" : number   
+}
+
+class GalleryModule {
+  
+  static $inject = ['config'];
+  
+  loadImages(config: Config, files: any) {
+   for(let i=0; i < files.length; i++) {
+     let file = files[i];
+     let reader = new FileReader(); 
+     reader.addEventListener('load', function(event){
+       let img = document.createElement('img');
+       img.addEventListener('load', function() {
+         this.addThumb(config, img, this.calculateDimensions(config, img));
+         reader = null;
+       });
+     });
+      
+   }
+   
+    
+  }
+  
+  addThumb(config: Config, img: HTMLImageElement, dimensionsObj: IDimensions): string[] {
+    let lowCanvas = document.createElement("canvas");
+    lowCanvas.width = config.thumbWidth;
+    lowCanvas.height = config.thumbHeight;
+    let ctx = lowCanvas.getContext("2d");
+    ctx.fillStyle = config.canvasColor;
+    ctx.fillRect(0, 0, lowCanvas.width, lowCanvas.height);
+    ctx.drawImage(img, dimensionsObj["positionX"], dimensionsObj["positionY"], dimensionsObj["width"], dimensionsObj["height"]);
+    let dataURL = lowCanvas.toDataURL();
+    
+    let thumbs: string[];
+    thumbs.push(dataURL);
+    
+    return thumbs;
+  }
+  
+  calculateDimensions(config: Config, img: HTMLImageElement): IDimensions {
+    let maxWidth = config.thumbWidth;
+    let maxHeight = config.thumbHeight;
+    let ratio = 0;
+    let width = img.width;
+    let height = img.height;
+    let positionX = 0;
+    let positionY = 0;
+
+    if (width > maxWidth) {
+      ratio = maxWidth / width;
+      height = height * ratio;
+      width = width * ratio;
+    }
+    if (height > maxHeight) {
+      ratio = maxHeight / height;
+      width = width * ratio;
+      height = height * ratio;
+    }
+
+    positionY = (maxHeight - height) / 2;
+    positionX = (maxWidth - width) / 2;
+
+    let dimensionsObj: IDimensions = {
+      "width" : width,
+      "height" : height,
+      "positionY" : positionY,
+      "positionX" : positionX            
+    };
+
+    return dimensionsObj;
+
+  }
+  
+  
+  
+  
+  
+}
+
+
+
 var galleryModule = ( function() {
 
   function openImage(event) {

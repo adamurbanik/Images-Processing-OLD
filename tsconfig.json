@@ -25,6 +25,7 @@
         "app/src/directives/drop-target-controller.ts",
         "app/src/directives/dropTarget.ts",
         "app/src/models/config.ts",
+        "app/src/models/fileModule.ts",
         "app/src/router/router.ts",
         "typings/main.d.ts",
         "typings/main/ambient/angular-animate/index.d.ts",

@@ -1,10 +1,13 @@
 (function() {
 
-  function link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
+
+
+  function link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, ctrl: DropTargetController) {
+
+
+ 
+
     let stopPropagation;
-
-    console.log(element[0]);
-
 
     stopPropagation = function(event) {
         if(event != null) {
@@ -22,9 +25,11 @@
         event.preventDefault();
         event.stopPropagation();
       }
-      let filesInput = event.dataTransfer.files;
+      let filesInput: any[];
+      filesInput = event.dataTransfer.files;
 
-      // var files = fileModule.validateFiles(filesInput);
+
+      var files = ctrl.fileModule.validateFiles(filesInput);
       // galleryModule.loadImages(config, files);
     }
 
@@ -33,6 +38,7 @@
 
 
   }
+
 
   function appDropTargetDirective() {
       return {
