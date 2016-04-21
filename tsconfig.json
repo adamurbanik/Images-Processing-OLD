@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "sourceMap": false
+    },
+    "exclude": [
+        "node_modules",
+        "typings/browser",
+        "typings/browser.d.ts"
+    ],
+    "compileOnSave": false,
+    "atom": {
+        "rewriteTsconfig": true
+    },
+    "filesGlob": [
+        "**/*.ts",
+        "**/*.tsx",
+        "!node_modules/**"
+    ],
+    "files": [
+        "app/src/app.ts",
+        "app/src/bootstrap.ts",
+        "app/src/controllers/intakeController.ts",
+        "app/src/directives/drop-target-controller.ts",
+        "app/src/directives/dropTarget.ts",
+        "app/src/models/config.ts",
+        "app/src/router/router.ts",
+        "typings/main.d.ts",
+        "typings/main/ambient/angular-animate/index.d.ts",
+        "typings/main/ambient/angular-ui-router/index.d.ts",
+        "typings/main/ambient/angular/index.d.ts",
+        "typings/main/ambient/bootstrap/index.d.ts",
+        "typings/main/ambient/jquery/index.d.ts"
+    ]
+}
