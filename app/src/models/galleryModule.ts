@@ -1,32 +1,63 @@
 interface IDimensions {
-    "width" : number,
-    "height" : number,
-    "positionY" : number,
-    "positionX" : number   
+  "width": number,
+  "height": number,
+  "positionY": number,
+  "positionX": number
 }
 
 class GalleryModule {
-  
-  static $inject = ['config'];
-  
-  loadImages(config: Config, files: any) {
-   for(let i=0; i < files.length; i++) {
-     let file = files[i];
-     let reader = new FileReader(); 
-     reader.addEventListener('load', function(event){
-       let img = document.createElement('img');
-       img.addEventListener('load', function() {
-         this.addThumb(config, img, this.calculateDimensions(config, img));
-         reader = null;
-       });
-     });
-      
-   }
-   
-    
+
+  static $inject = ['config', '$q', 'appStorage'];
+
+  config: Config;
+  $q: ng.IQService;
+  appStorage: AppStorage;
+
+  constructor(config: Config, $q: ng.IQService, appStorage: AppStorage) {
+    this.config = config;
+    this.$q = $q;
+    this.appStorage = appStorage;
   }
-  
-  addThumb(config: Config, img: HTMLImageElement, dimensionsObj: IDimensions): string[] {
+
+  createThumb(url) {
+
+  }
+
+  loadImages(files: any[]): ng.IPromise<string[]> {
+    return this.$q.all(files.map(file => this.getImageSource(file)));
+  }
+
+
+  getImageSource(file: any): ng.IPromise<string> {
+    return this.$q((resolve, reject) => {
+
+      let reader = new FileReader();
+
+      reader.addEventListener('load', event => {
+        const img = new Image();
+
+        img.addEventListener('load', () => {
+          let url = this.createStringThumb(this.config, img, this.calculateDimensions(this.config, img));
+
+          resolve(url);
+        });
+        img.src = event.target.result;
+
+        img.addEventListener('error', () => reject('nie udalo sie zaladowac img'));
+
+      });
+
+      if (file) {
+        reader.readAsDataURL(file);
+
+        reader.addEventListener('error', () => reject('nie udalo sie odczytac plik'));
+
+      }
+
+    });
+  }
+
+  createStringThumb(config: Config, img: HTMLImageElement, dimensionsObj: IDimensions): string {
     let lowCanvas = document.createElement("canvas");
     lowCanvas.width = config.thumbWidth;
     lowCanvas.height = config.thumbHeight;
@@ -35,13 +66,10 @@ class GalleryModule {
     ctx.fillRect(0, 0, lowCanvas.width, lowCanvas.height);
     ctx.drawImage(img, dimensionsObj["positionX"], dimensionsObj["positionY"], dimensionsObj["width"], dimensionsObj["height"]);
     let dataURL = lowCanvas.toDataURL();
-    
-    let thumbs: string[];
-    thumbs.push(dataURL);
-    
-    return thumbs;
+
+    return dataURL;
   }
-  
+
   calculateDimensions(config: Config, img: HTMLImageElement): IDimensions {
     let maxWidth = config.thumbWidth;
     let maxHeight = config.thumbHeight;
@@ -66,119 +94,20 @@ class GalleryModule {
     positionX = (maxWidth - width) / 2;
 
     let dimensionsObj: IDimensions = {
-      "width" : width,
-      "height" : height,
-      "positionY" : positionY,
-      "positionX" : positionX            
+      "width": width,
+      "height": height,
+      "positionY": positionY,
+      "positionX": positionX
     };
 
     return dimensionsObj;
 
   }
-  
-  
-  
-  
-  
+
 }
 
+angular
+  .module('imagesApp')
+  .service('galleryModule', GalleryModule);
 
 
-var galleryModule = ( function() {
-
-  function openImage(event) {
-    var myWindow = window.open(event.currentTarget.alt, "mywin", 
-      'resizable=yes,scrollbars=yes,location=yes');
-  }
-
-  function clearArray(array) {
-    while(array.length > 0) {
-      array.pop();
-    }
-    return array;
-  }
-
-  function loadImages(config, files) {
-    for(var i = 0; i < files.length; i++) {
-      var file = files[i];
-      var reader = new FileReader();
-      registerHandlersModule.addHandler(reader, "load", function(event) {
-        var img = document.createElement("img");
-        registerHandlersModule.addHandler(img, "load", function() {
-          drawThumb(config, img);
-          reader = null;
-        });
-        img.src = event.target.result;
-      });
-
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    }
-  }
-
-  function drawThumb(config, img) {
-    drawImage(config, img, calculateDimensions(config, img));
-  }
-
-  function calculateDimensions(config, img) {
-    var maxWidth = config.thumbWidth;
-    var maxHeight = config.thumbHeight;
-    var ratio = 0;
-    var width = img.width;
-    var height = img.height;
-    var positionX = 0;
-    var positionY = 0;
-
-    if (width > maxWidth) {
-      ratio = maxWidth / width;
-      height = height * ratio;
-      width = width * ratio;
-    }
-    if (height > maxHeight) {
-      ratio = maxHeight / height;
-      width = width * ratio;
-      height = height * ratio;
-    }
-
-    positionY = (maxHeight - height) / 2;
-    positionX = (maxWidth - width) / 2;
-
-    var dimensionsObj = {
-      "width" : width,
-      "height" : height,
-      "positionY" : positionY,
-      "positionX" : positionX            
-    };
-
-    return dimensionsObj;
-
-  }
-
-  function drawImage(config, img, dimensionsObj) {
-    var lowCanvas = document.createElement("canvas");
-    lowCanvas.width = config.thumbWidth;
-    lowCanvas.height = config.thumbHeight;
-    var ctx = lowCanvas.getContext("2d");
-    ctx.fillStyle = config.canvasColor;
-    ctx.fillRect(0, 0, lowCanvas.width, lowCanvas.height);
-    ctx.drawImage(img, dimensionsObj["positionX"], dimensionsObj["positionY"], dimensionsObj["width"], dimensionsObj["height"]);
-    var dataURL = lowCanvas.toDataURL();
-
-    var thumb = document.createElement("img");
-    thumb.src = dataURL;
-    thumb.alt = img.src;
-    registerHandlersModule.addHandler(thumb, "click", openImage);
-
-    document.getElementById("preview").appendChild(thumb);
-  }
-
-
-  return {
-    calculateDimensions: calculateDimensions,
-    drawImage: drawImage,
-    drawThumb: drawThumb,
-    loadImages: loadImages
-  }
-
-}()); 

@@ -1,7 +1,8 @@
-<div class="droptarget">
+<div class="droptarget" style="width:1024px; height:768px; background-color: black;">
   <label>Please upload files</label>
-  <input type="file" accept=".png, .jpg" id="filesInput" name="fileInput" multiple>
-  <br>
-  <br>
-  <div id="preview">
+  <input type="file" accept=".png, .jpg" id="filesInput" name="fileInput" multiple 
+    ng-click="vm.addImages()">
+  <div id="preview" ng-repeat="thumb in vm.thumbs">
+    <img ng-src={{thumb}}  alt="... ">
+  </div>
 </div>
