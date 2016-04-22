@@ -24,23 +24,24 @@ class DropTargetController {
       .on("dragleave", stop)
       .on("drop", onDrop);
 
+    $input
+      .on("change", onChange);
+
     this.scope.$on('$destroy', () => {
       $html
         .off('dragover', stop)
         .off('dragleave', stop)
         .off('drop', onDrop)
+        .off('change', onChange)
     });
-
-    $input
-      .on("change", onChange);
   }
 
   onDrop(e: any) {
-    return this.processInput(<any[]>e.originalEvent.dataTransfer.files);
+    return this.processInput(<any[]> e.originalEvent.dataTransfer.files);
   }
 
   onChange(e: any) {
-    return this.processInput(e.target.files);
+    return this.processInput(<any[]> e.target.files);
   }
   
   processInput(filesInput: any[]) {
