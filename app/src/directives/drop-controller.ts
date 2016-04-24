@@ -5,7 +5,8 @@ class DropController {
   private galleryModule: GalleryModule;
   private fileModule: FileModule;
   private thumbs: string[];
-
+  private id: string;
+  
   constructor(galleryModule: GalleryModule, fileModule: FileModule) {
     this.galleryModule = galleryModule;
     this.fileModule = fileModule;
@@ -13,12 +14,12 @@ class DropController {
   }
 
   bindEvent() {
-    const $html = $("html");
+    const $drop = $(`#${this.id}`);
 
     const stop = () => false;
     const onDrop = (e: Event) => this.onDrop(e);
 
-    $html
+    $drop
       .on("dragover", stop)
       .on("dragleave", stop)
       .on("drop", onDrop);

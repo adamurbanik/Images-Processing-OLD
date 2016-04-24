@@ -7,7 +7,8 @@ function AppDropDirective() {
     controllerAs: 'vm',
     bindToController: true,
     scope: {
-      thumbs: '='
+      thumbs: '=',
+      id: '@'
     }
   }
 

@@ -1,7 +1,13 @@
 <app-drop thumbs=vm.thumbs>
 </app-drop>
-<app-input thumbs=vm.thumbs>
-</app-input>
+<div>
+  <label>Please upload files 1</label>
+  <input  app-input type="file" 
+          accept=".png, .jpg" 
+          id="filesInput" 
+          multiple ng-click="vm.addImages()"
+          thumbs=vm.thumbs>  
+</div>
 <app-gallery thumbs=vm.thumbs>
 </app-gallery>
 <button ng-click="vm.showThumbs()">pokaz mi moje thumbsy plis</button>
