@@ -1,3 +1,1 @@
-(function () {
-  angular.module('imagesApp', ['ui.router', 'ui.bootstrap', 'ngAnimate']);
-})();
+angular.module('imagesApp', ['ui.router', 'ui.bootstrap', 'ngAnimate']);

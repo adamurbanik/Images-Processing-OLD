@@ -1,24 +1,22 @@
-class Config {
-  
-  thumbWidth: number;
-  thumbHeight: number;
-  elementsDistance: number;
-  canvasWidth: string;
-  canvasHeight: string;
-  canvasColor: string;
-    
-  constructor() {
-    this.thumbWidth = 150;
-    this.thumbHeight = 150;
-    this.elementsDistance = 2;
-    this.canvasWidth = "1024";
-    this.canvasHeight = "768";
-    this.canvasColor = "#f2f2f2";
-  }
-    
+interface Config {
+  thumbWidth: number,
+  thumbHeight: number,
+  elementsDistance: number,
+  canvasWidth: string,
+  canvasHeight: string,
+  canvasColor: string 
+}
+
+let Config = { 
+  thumbWidth:  150,
+  thumbHeight: 150,
+  elementsDistance: 2,
+  canvasWidth: '1024',
+  canvasHeight: '768',
+  canvasColor:  '#f2f2f2'
 }
 
 
 angular
   .module('imagesApp')
-  .service('config', Config);
+  .value('config', Config);

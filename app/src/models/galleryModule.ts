@@ -19,14 +19,9 @@ class GalleryModule {
     this.appStorage = appStorage;
   }
 
-  createThumb(url) {
-
-  }
-
   loadImages(files: any[]): ng.IPromise<string[]> {
     return this.$q.all(files.map(file => this.getImageSource(file)));
   }
-
 
   getImageSource(file: any): ng.IPromise<string> {
     return this.$q((resolve, reject) => {

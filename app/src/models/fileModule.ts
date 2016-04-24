@@ -1,8 +1,8 @@
 class FileModule {
 
   /* Function responsible to validate files specified as a argument.It returns array of valid files */
-  validateFiles(filesInput: any[]): any[] {
-    let validFiles: any[] = [];
+  validateFiles(filesInput: File[]): any[] {
+    let validFiles: File[] = [];
     for (let i = 0; i < filesInput.length; i++) {
       let file = filesInput[i];
       if (this.validateFileType(file)) {
@@ -13,7 +13,7 @@ class FileModule {
   }
 
   /* Function that checks for the validity of the file extension.The file argument is provided. Only the jpg and png formats are supported.*/
-  validateFileType(file: any): boolean {
+  validateFileType(file: File): boolean {
     let allowedExtensions = ["jpg", "JPG", "png", "PNG"];
 
     for (let i = 0; i < allowedExtensions.length; i++) {
