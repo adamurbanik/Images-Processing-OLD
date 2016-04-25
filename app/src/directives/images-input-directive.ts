@@ -1,9 +1,7 @@
-function AppDropDirective() {
+function InputImagesDirective() {
   return {
-    templateUrl: 'tmpl/drop.html',
     restrict: 'EA',
-    replace: true,
-    controller: DropController,
+    controller: ImagesInputController,
     controllerAs: 'vm',
     bindToController: true,
     scope: {
@@ -11,9 +9,8 @@ function AppDropDirective() {
       id: '@'
     }
   }
-
 }
 
 angular
   .module('imagesApp')
-  .directive('appDrop', AppDropDirective);
+  .directive('inputImages', InputImagesDirective);

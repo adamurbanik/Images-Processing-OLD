@@ -1,4 +1,4 @@
-function AppGalleryDirective() {
+function GalleryDirective() {
   return {
     templateUrl: 'tmpl/gallery.html',
     restrict: 'EA',
@@ -11,4 +11,4 @@ function AppGalleryDirective() {
 
 angular
   .module('imagesApp')
-  .directive('appGallery', AppGalleryDirective);
+  .directive('gallery', GalleryDirective);

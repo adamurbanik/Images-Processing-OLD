@@ -2,18 +2,26 @@ class AppStorage {
 
   static $inject = ['appLocalStorage'];
 
-  thumbs: string[];
-  appLocalStorage: AppLocalStorage;
+  private thumbs: string[];
+  private appLocalStorage: AppLocalStorage;
 
   constructor(appLocalStorage: AppLocalStorage) {
     this.appLocalStorage = appLocalStorage;
+    this.thumbs = appLocalStorage.getStorage();
   }
 
-  addItem(thumb: string) : string[] {
-    this.thumbs.push(thumb);
-    this.appLocalStorage.updateStorage(this.thumbs);
+  addItems(thumbs: string[]): string[] {
+    thumbs.forEach((thumb: string) => {
+      this.thumbs.push(thumb);
+    });
+    return this.appLocalStorage.updateStorage(this.thumbs);
+  }
+  
+  getItems(): string[]  {
     return this.thumbs;
   }
+
+
 
 }
 

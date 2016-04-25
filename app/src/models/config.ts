@@ -19,4 +19,4 @@ let Config = {
 
 angular
   .module('imagesApp')
-  .value('config', Config);
+  .constant('config', Config);

@@ -9,8 +9,9 @@ class AppLocalStorage {
     }
   }
 
-  updateStorage(thumbs) {
+  updateStorage(thumbs: string[]): string[] {
     localStorage.setItem('thumbs', angular.toJson(thumbs));
+    return this.getStorage();
   }
 
 }

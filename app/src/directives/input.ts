@@ -1,16 +1,9 @@
-function AppInputDirective() {
+function InputDirective() {
   return {
-    restrict: 'EA',
-    controller: InputController,
-    controllerAs: 'vm',
-    bindToController: true,
-    scope: {
-      thumbs: '=',
-      id: '@'
-    }
+    restrict: 'EA'
   }
 }
 
 angular
   .module('imagesApp')
-  .directive('appInput', AppInputDirective);
+  .directive('appInput', InputDirective);

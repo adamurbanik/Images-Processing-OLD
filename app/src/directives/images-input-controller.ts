@@ -1,15 +1,20 @@
-class InputController {
+class ImagesInputController {
 
-  static $inject = ['galleryModule', 'fileModule']
+  static $inject = ['imageProcessing', 'fileModule', 'appStorage'];
 
-  private galleryModule: GalleryModule;
+  private galleryModule: ImageProcessing;
   private fileModule: FileModule;
   private thumbs: string[];
   private id: string;
+  private appStorage: AppStorage;
 
-  constructor(galleryModule: GalleryModule, fileModule: FileModule) {
+  constructor(galleryModule: ImageProcessing, 
+              fileModule: FileModule,
+              appStorage: AppStorage) {
+    
     this.galleryModule = galleryModule;
     this.fileModule = fileModule;
+    this.appStorage = appStorage;
 
     this.bindEvent();
   }
@@ -31,7 +36,7 @@ class InputController {
     this.galleryModule
       .loadImages(this.fileModule.validateFiles(filesInput))
       .then((data) => {
-        this.thumbs = this.thumbs.concat(data);
+        this.thumbs = this.appStorage.addItems(data);
       })
       .catch(() => 'loading images failed');
 
@@ -42,4 +47,4 @@ class InputController {
 
 angular
   .module('imagesApp')
-  .controller('InputController', InputController);
+  .controller('ImagesInputController', ImagesInputController);

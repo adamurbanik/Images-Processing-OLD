@@ -5,18 +5,16 @@ interface IDimensions {
   "positionX": number
 }
 
-class GalleryModule {
+class ImageProcessing {
 
-  static $inject = ['config', '$q', 'appStorage'];
+  static $inject = ['config', '$q'];
 
   config: Config;
   $q: ng.IQService;
-  appStorage: AppStorage;
 
-  constructor(config: Config, $q: ng.IQService, appStorage: AppStorage) {
+  constructor(config: Config, $q: ng.IQService) {
     this.config = config;
     this.$q = $q;
-    this.appStorage = appStorage;
   }
 
   loadImages(files: any[]): ng.IPromise<string[]> {
@@ -103,6 +101,6 @@ class GalleryModule {
 
 angular
   .module('imagesApp')
-  .service('galleryModule', GalleryModule);
+  .service('imageProcessing', ImageProcessing);
 
 
