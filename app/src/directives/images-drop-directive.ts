@@ -1,4 +1,4 @@
-function imagesDropDirective () {
+function ImagesDropDirective () {
   return {
     templateUrl: 'tmpl/drop.html',
     restrict: 'EA',
@@ -17,4 +17,4 @@ function imagesDropDirective () {
 
 angular
   .module('imagesApp')
-  .directive('imagesDrop', imagesDropDirective)
+  .directive('imagesDrop', ImagesDropDirective)
